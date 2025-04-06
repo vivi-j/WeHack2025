@@ -15,22 +15,22 @@ const dashboard = () => {
       <div className="flex h-full">
         <Sidebar />
         
-        <div className="fixed top-[80px] left-64 pl-4 right-0 font-roboto bottom-0 overflow-y-auto">
+        <div className="fixed top-[80px] left-64 pl-4 right-0 bottom-0 overflow-y-auto">
         <div className='flex gap-8 mt-4'>
-            <p className='text-white underline'>Dashboard</p>
-            <p className='text-white'>Analysis</p>
+            <p className='text-white font-Roboto underline'>Dashboard</p>
+            <a href="/analysis" className='text-white font-Roboto hover:underline text-[#E7C0BC]'>Analysis</a>
         </div>
         <div className="flex space-x-4 mt-16"> {/* This creates a flex container with spacing between items */}
             {/* First Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
-                <h1 className="text-white">Overall Tower Health</h1>
+                <h1 className="text-white font-Roboto">Overall Tower Health</h1>
                 <GaugeComponent score={80} maxScore={100} title="Tower Health" />
                 
             </div>
 
             {/* Second Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
-                <h1 className="text-white">Tower Type</h1>
+                <h1 className="text-white font-weight-700 font-[Roboto Mono] text-bold">Tower Type</h1>
                 <div className="flex gap-8">
                     <img src="/logo192.png" alt="Logo" />
                     <img src="/logo192.png" alt="Logo" />
@@ -53,7 +53,10 @@ const dashboard = () => {
             </div>
           </div>
         </div>
+
         </div>
+        
+
   );
 }
 

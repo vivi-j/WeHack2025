@@ -6,6 +6,7 @@ import Homepage from './pages/homepage';
 import Login from './pages/login';
 import Register from './pages/signup';
 import Dashboard from './pages/dashboard';
+import Analysis from './pages/analysis';
 
 import { AuthProvider } from './contexts/authContext';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path='/signup' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/analysis' element={<Analysis />} />
       </Routes>
     </Router>
     </AuthProvider>
