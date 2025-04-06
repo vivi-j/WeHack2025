@@ -76,6 +76,12 @@ const Dashboard = () => {
   
   const [healthScore, setHealthScore] = React.useState(75);
   const [loading, setLoading] = React.useState(true);
+
+  const weightedSum = 
+      (scaledParam1 * weight1) + 
+      (scaledParam2 * weight2) + 
+      (scaledParam3 * weight3) + 
+      (scaledParam4 * weight4);
   
   React.useEffect(() => {
     const loadData = async () => {
@@ -106,8 +112,8 @@ const Dashboard = () => {
       <div className="flex h-full">
         <div className="fixed top-[80px] w-full">
           <div className='flex gap-8 pl-12 mt-2'>
-            <p className='text-[#E7C0BC] bg-[#483137] p-2 rounded-3xl font-montserrat underline'>Dashboard</p>
-            <a href="/analysis" className="text-white p-2 rounded-3xl border-2 border-[#E7C0BC] hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
+            <p className='text-[#E7C0BC] bg-[#483137] cursor-custom p-2 rounded-3xl font-montserrat underline'>Dashboard</p>
+            <a href="/analysis" className="text-white p-2 cursor-custom rounded-3xl border-2 border-[#E7C0BC] hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
           </div>
           
           <div className="flex space-x-4 pl-12 h-[300px] mt-8">
@@ -135,6 +141,9 @@ const Dashboard = () => {
           <div className="flex space-x-4 pl-12 mt-8 absolute">
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
               <h1 className="text-white text-[24px] absolute top-[20px] font-montserrat">Obstruction</h1>
+              <h2 className="text-white text-[18px] absolute top-[60px] font-montserrat">5 images with obstructions were identified. Bird nests seem to be
+                the main cause!
+              </h2>
               <Carousel/>
             </div>
 

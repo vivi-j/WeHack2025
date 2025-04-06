@@ -18,3 +18,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.cursor-custom {
+  cursor: url('wand-cursor (1).png'), auto;
+}
+

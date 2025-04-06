@@ -8,7 +8,7 @@ const TowerChart = ({ className = '' }) => {
 
   const labels = ['Lattice', 'Monopole', 'Guyed', 'Water'];
   const data = [54, 18, 15, 10];
-  const colors = ['#FFDAB4', '#DCCCEA', '#D6E5BE', '#FFFEFD'];
+  const colors = ['#DCCCEA', '#FFDAB4', '#D6E5BE', '#FFFEFD'];
 
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
@@ -18,7 +18,7 @@ const TowerChart = ({ className = '' }) => {
     }
 
     chartInstanceRef.current = new Chart(ctx, {
-      type: 'doughnut',
+      type: 'pie',
       data: {
         labels: labels,
         datasets: [{
