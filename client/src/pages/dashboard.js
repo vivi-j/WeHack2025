@@ -12,7 +12,6 @@ const dashboard = () => {
       <Navbar />
     
       <div className="flex h-full">
-        <Sidebar />
         
         <div className="fixed top-[80px] left-64 pl-4 right-0 bottom-0 overflow-y-auto">
           <div className='flex gap-8 mt-4'>
@@ -45,18 +44,18 @@ const dashboard = () => {
           </div>
 
           {/* Green Div - Full Width with New Column */}
-          <div className="flex space-x-4 mt-8">
+          <div className="flex space-x-4 mt-8 absolute">
             {/* First Column in Green Div */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
-              <h1 className="text-white text-[24px] font-montserrat ">Obstruction</h1>
+              <h1 className="text-white text-[24px] absolute top-[20px] font-montserrat ">Obstruction</h1>
               <Carousel />
             </div>
 
             {/* Second Column in Green Div */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl"
             onClick={() => window.location.href = "/tiltcalculation"}>
-              <h1 className="text-white text-[24px] font-montserrat ">Tilt Calculator</h1>
-              <img src="/Population_density_of_Texas_counties_28202029-2.png" className='w-1/2'></img>
+              <h1 className="text-white text-[24px] absolute top-2 font-montserrat ">Tilt Calculator</h1>
+              <img src="/Population_density_of_Texas_counties_28202029-2.png" className='w-1/2 mt-4'></img>
             </div>
           </div>
         </div>
