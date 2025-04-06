@@ -20,6 +20,7 @@ function calculateOverallHealth(param1, param2, param3, param4) {
     const scaledParam3 = param3 / 100;
     const scaledParam4 = param4 / 100;
   
+  
     // Calculate the weighted sum with the scaled values
     const weightedSum = 
       (scaledParam1 * weight1) + 
@@ -69,6 +70,9 @@ const dashboard = () => {
             {/* First Column in Green Div */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
               <h1 className="text-white text-[24px] absolute top-[20px] font-montserrat">Obstruction</h1>
+              <h2 className="text-white text-[18px] absolute top-[60px] font-montserrat">5 images with obstructions were identified. Bird nests seem to be
+                the main cause!
+              </h2>
               <Carousel/>
             </div>
 
