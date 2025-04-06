@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { Client } = require('ssh2');
+const axios = require('axios');
 
 const app = express();
 const port = 3001;
@@ -63,6 +64,16 @@ app.get('/api/off', async (req, res) => {
     res.json({ status: 'off', message: 'Actuator turned off successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/chat', async (req, res) => {
+  try {
+    const response = await axios.post('http://localhost:5001/api/chat', req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error forwarding to Gemini service:', error);
+    res.status(500).json({ error: 'Error communicating with chat service' });
   }
 });
 
