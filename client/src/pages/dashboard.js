@@ -5,6 +5,8 @@ import Navbar from '../components/navbar'
 import GaugeComponent from '../components/gauge'
 import Numbers from '../components/numbers'
 import Carousel from '../components/carousel'
+import TowerChart from '../components/tower_type'
+import NestChart from '../components/obstruction'
 
 function calculateOverallHealth(param1, param2, param3, param4) {
     const weight1 = 0.4;
@@ -51,19 +53,14 @@ const dashboard = () => {
             {/* Second Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
               <h1 className="text-white text-[24px] font-montserrat h-full ">Tower Type</h1>
-              <img 
-                src="/tower_types.jpg" 
-                alt="Tower Types" 
-                className="w-full h-full object-contain mt-2 p-6"
-                />
+              <TowerChart className = 'p-4'/> 
+
             </div>
 
             {/* Third Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
               <h1 className="text-white text-[24px] font-montserrat ">Obstruction Likelihood</h1>
-              <img src="/nest_tower_types.jpg" alt="Logo" 
-              className="w-full h-full object-contain mt-2 p-6"
-              />
+              <NestChart/>              
             </div>
           </div>
 
