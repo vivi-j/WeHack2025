@@ -1,38 +1,104 @@
-// dashboard.js
-import React from 'react'
-import Sidebar from '../components/sidebar'
-import Navbar from '../components/navbar'
-import GaugeComponent from '../components/gauge'
-import Numbers from '../components/numbers'
-import Carousel from '../components/carousel'
-import TowerChart from '../components/tower_type'
-import NestChart from '../components/obstruction'
+import React from 'react';
+import Navbar from '../components/navbar';
+import GaugeComponent from '../components/gauge';
+import TowerChart from '../components/tower_type';
+import NestChart from '../components/obstruction';
+import Carousel from '../components/carousel';
+import Papa from 'papaparse';
 
-function calculateOverallHealth(param1, param2, param3, param4) {
-    const weight1 = 0.4;
-    const weight2 = 0.3;
-    const weight3 = 0.2;
-    const weight4 = 0.1;
-  
-    // Scale the integer inputs (range 0-100) to 0-1 by dividing by 100
-    const scaledParam1 = param1 / 100;
-    const scaledParam2 = param2 / 100;
-    const scaledParam3 = param3 / 100;
-    const scaledParam4 = param4 / 100;
-  
-    // Calculate the weighted sum with the scaled values
-    const weightedSum = 
-      (scaledParam1 * weight1) + 
-      (scaledParam2 * weight2) + 
-      (scaledParam3 * weight3) + 
-      (scaledParam4 * weight4);
-  
-    // Convert the weighted sum into a percentage (scaled back to 0-100)
-    const percentage = weightedSum * 100;  // Since we want percentage
-    return percentage;
+function mapCategoryToScore(category) {
+  const mapping = {
+    'nest': 30,       
+    'no_nest': 100,  
+    'Rainy': 60,      
+    'Cloudy': 80,    
+    'Sunny': 90,      
+    'Clear': 100      
+  };
+  return mapping[category]
+}
+
+async function calculateOverallHealth(tiltPath, obstructionPath, environmentPath) {
+  try {
+    const responses = await Promise.all([
+      fetch(tiltPath),
+      fetch(obstructionPath),
+      fetch(environmentPath)
+    ]);
+    
+    if (responses.some(res => !res.ok)) {
+      throw new Error('Failed to fetch CSV data');
+    }
+    
+    const [tiltText, obstructionText, environmentText] = await Promise.all([
+      responses[0].text(),
+      responses[1].text(),
+      responses[2].text()
+    ]);
+    
+    const [tiltData, obstructionData, environmentData] = [
+      Papa.parse(tiltText, {header: true}).data,
+      Papa.parse(obstructionText, {header: true}).data,
+      Papa.parse(environmentText, {header: true}).data
+    ];
+    
+    const tiltValue = parseFloat(tiltData[0]?.Value) || 0;
+    const obstructionStatus = obstructionData[0]?.Label || 'no_nest';
+    const environmentStatus = environmentData[0]?.Label || 'Clear';
+    
+    const tiltScore = Math.max(0, 100 - (Math.min(10, Math.abs(tiltValue)) * 10));
+    
+    const obstructionScore = mapCategoryToScore(obstructionStatus);
+    const environmentScore = mapCategoryToScore(environmentStatus);
+    
+    const weights = {
+      tilt: 0.5,        
+      obstruction: 0.3, 
+      environment: 0.2  
+    };
+    
+    const weightedScore = 
+      (tiltScore * weights.tilt) + 
+      (obstructionScore * weights.obstruction) + 
+      (environmentScore * weights.environment);
+    
+    return Math.min(100, Math.max(0, Math.round(weightedScore * 100) / 100));
+    
+  } catch (error) {
+    console.error("Error calculating tower health:", error);
   }
+}
 
-const dashboard = () => {
+const Dashboard = () => {
+  const tiltPath = '/server/tilt.csv';
+  const obstructionPath = '/server/obstruction.csv';
+  const environmentPath = '/server/environment.csv';
+  
+  const [healthScore, setHealthScore] = React.useState(75);
+  const [loading, setLoading] = React.useState(true);
+  
+  React.useEffect(() => {
+    const loadData = async () => {
+      try {
+        const score = await calculateOverallHealth(
+          tiltPath, 
+          obstructionPath, 
+          environmentPath
+        );
+        setHealthScore(score);
+      } catch (error) {
+        console.error('Failed to load health data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadData();
+    
+    const interval = setInterval(loadData, 60000); 
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className='bg-[#0B0003] h-screen'>
       <Navbar />
@@ -43,40 +109,45 @@ const dashboard = () => {
             <p className='text-[#E7C0BC] bg-[#483137] p-2 rounded-3xl font-montserrat underline'>Dashboard</p>
             <a href="/analysis" className="text-white p-2 rounded-3xl border-2 border-[#E7C0BC] hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
           </div>
+          
           <div className="flex space-x-4 pl-12 h-[300px] mt-8">
             {/* First Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
-              <h1 className="text-white text-[24px] font-montserrat ">Overall Tower Health</h1>
-              <GaugeComponent score={calculateOverallHealth(100, 50, 100, 50)} maxScore={100} title="Tower Health" />
+              <h1 className="text-white text-[24px] font-montserrat">Overall Tower Health</h1>
+              {loading ? (
+                <div className="text-white">Loading...</div>
+              ) : (
+                <GaugeComponent score={healthScore} maxScore={100} title="Tower Health" />
+              )}
             </div>
 
-            {/* Second Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
-              <h1 className="text-white text-[24px] font-montserrat h-full ">Tower Type</h1>
-              <TowerChart className = 'p-4'/> 
-
+              <h1 className="text-white text-[24px] font-montserrat h-full">Tower Type</h1>
+              <TowerChart className='p-4'/> 
             </div>
 
-            {/* Third Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
-              <h1 className="text-white text-[24px] font-montserrat ">Obstruction Likelihood</h1>
+              <h1 className="text-white text-[24px] font-montserrat">Obstruction Likelihood</h1>
               <NestChart/>              
             </div>
           </div>
 
-          {/* Green Div - Full Width with New Column */}
           <div className="flex space-x-4 pl-12 mt-8 absolute">
-            {/* First Column in Green Div */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
               <h1 className="text-white text-[24px] absolute top-[20px] font-montserrat">Obstruction</h1>
               <Carousel/>
             </div>
 
-            {/* Second Column in Green Div */}
-            <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl"
-            onClick={() => window.location.href = "/tiltcalculation"}>
-              <h1 className="text-white text-[24px] absolute top-2 font-montserrat ">Tilt Calculator</h1>
-              <img src="/Population_density_of_Texas_counties_28202029-2.png" className='w-1/2 mt-8'></img>
+            <div 
+              className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl cursor-pointer hover:bg-[#5a3d42] transition-colors"
+              onClick={() => window.location.href = "/tiltcalculation"}
+            >
+              <h1 className="text-white text-[24px] absolute top-2 font-montserrat">Tilt Calculator</h1>
+              <img 
+                src="/Population_density_of_Texas_counties_28202029-2.png" 
+                alt="Tilt Calculator Visualization"
+                className='w-1/2 mt-8 rounded-lg'
+              />
             </div>
           </div>
         </div>
@@ -85,4 +156,4 @@ const dashboard = () => {
   );
 }
 
-export default dashboard;
+export default Dashboard;
