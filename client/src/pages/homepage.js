@@ -57,7 +57,7 @@ const Homepage = () => {
             Soul Signal
           </h1>
           <h2 className="text-white text-[30px] font-montserrat font-normal pt-4 leading-tight mb-6">
-            I love raspberries. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Keeping you connected, one tower at a time :)
           </h2>
           <button className="mt-4 bg-[#E7C0BC] cursor-custom text-[#8B3C46] text-[24px] px-[30px] py-[15px] rounded-full transition-all duration-300 hover:bg-[#d19ca3] font-[Farro] font-bold"
            onClick={handleGetStarted}>

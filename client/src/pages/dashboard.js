@@ -41,8 +41,8 @@ const dashboard = () => {
       <div className="flex h-full">
         <div className="fixed top-[80px] w-full">
           <div className='flex gap-8 pl-12 mt-2'>
-            <p className='text-[#E7C0BC] bg-[#483137] p-2 rounded-3xl font-montserrat underline'>Dashboard</p>
-            <a href="/analysis" className="text-white p-2 rounded-3xl border-2 border-[#E7C0BC] hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
+            <p className='text-[#E7C0BC] bg-[#483137] cursor-custom p-2 rounded-3xl font-montserrat underline'>Dashboard</p>
+            <a href="/analysis" className="text-white p-2 cursor-custom rounded-3xl border-2 border-[#E7C0BC] hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
           </div>
           <div className="flex space-x-4 pl-12 h-[300px] mt-8">
             {/* First Column */}

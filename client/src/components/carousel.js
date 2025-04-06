@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
 const images = [
-    "/nest_images/img86.webp",
-    "/nest_images/img89.webp",
-    "/nest_images/img90.webp",
-    "/nest_images/img91.jpg",
-    "/nest_images/img103.webp",
-    "/nest_images/img104.webp"
-]
+  "/nest_images/img86.webp",
+  "/nest_images/img89.webp",
+  "/nest_images/img90.webp",
+  "/nest_images/img91.jpg",
+  "/nest_images/img103.webp",
+  "/nest_images/img104.webp"
+];
 
 const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -23,7 +23,7 @@ const Carousel = () => {
   return (
     <div id="indicators-carousel" className="relative w-[70%] p-8">
       {/* Carousel wrapper */}
-      <div className="relative h-56 overflow-hidden rounded-lg md:h-96 aspect-w-1 aspect-h-1">
+      <div className="relative h-96 overflow-hidden rounded-lg md:h-96">
         {images.map((src, index) => (
           <div
             key={index}
@@ -34,12 +34,11 @@ const Carousel = () => {
             <img
               src={src}
               alt={`Slide ${index + 1}`}
-              className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+              className="absolute block w-full h-[300px] object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             />
           </div>
         ))}
       </div>
-
       {/* Indicators */}
       <div className="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
         {images.map((_, index) => (
@@ -53,7 +52,6 @@ const Carousel = () => {
           />
         ))}
       </div>
-
       {/* Prev Button */}
       <button
         type="button"
@@ -78,7 +76,6 @@ const Carousel = () => {
           <span className="sr-only">Previous</span>
         </span>
       </button>
-
       {/* Next Button */}
       <button
         type="button"

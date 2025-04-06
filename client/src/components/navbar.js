@@ -16,11 +16,15 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
     <nav className="bg-[#000000bc] text-white flex justify-between items-center h-[80px] w-screen fixed top-0 left-0 z-50 px-4">
       {/* Left Section */}
       <div className="flex items-center gap-2">
-        <img src="/mascot_bigger-4.png" alt="Logo" className="w-[50px] h-[50px] rounded-full" />
+        <img src="/mascot_bigger-4.png" alt="Logo" onClick={handleLogoClick} className="w-[50px] h-[50px] rounded-full" />
         <button className="nav-button cursor-custom">About</button>
         <button className="nav-button cursor-custom">Contact</button>
       </div>
@@ -36,14 +40,14 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         {userLoggedIn ? (
           <button
-            className="nav-button bg-[#ffffff4d] rounded-3xl"
+            className="cursor-custom nav-button bg-[#ffffff4d] rounded-3xl"
             onClick={handleLogoutClick}
           >
             <FaUser className="mr-[8px]" /> Log Out
           </button>
         ) : (
           <>
-            <button className="nav-button" onClick={handleLoginClick}>
+            <button className="nav-button " onClick={handleLoginClick}>
               <FaUser className="mr-[8px]" /> Log In
             </button>
             <button
