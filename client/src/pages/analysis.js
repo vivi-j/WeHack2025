@@ -52,21 +52,15 @@ const Analysis = () => {
       <Navbar />
 
       <div className="flex h-full">
-        <Sidebar />
 
-        <div className="fixed top-[80px] left-64 pl-4 right-0 bottom-0 overflow-y-auto">
-          <div className="flex gap-8 mt-4">
-            <Link
-              to="/dashboard"
-              className="text-white font-Roboto hover:underline text-[#E7C0BC]"
-            >
-              Dashboard
-            </Link>
-            <p className="text-white font-Roboto underline">Analysis</p>
+        <div className="fixed top-[80px] w-full">
+          <div className="flex gap-8 mt-4 pl-12">
+            <a href="/dashboard" className="text-white p-2 rounded-3xl border-2 border-[#E7C0BC] hover:text-[#E7C0BC] font-montserrat hover:underline">Dashboard</a>
+            <p className='text-[#E7C0BC] bg-[#483137] p-2 rounded-3xl font-montserrat underline'>Analysis</p>
           </div>
                     {/* Add this new div for the "Connect with raccon" text */}
                     <div className="mt-4 mb-4">
-            <p className="text-white font-Roboto text-[#E7C0BC]">
+            <p className="text-white font-[Damion] text-[#E7C0BC] pl-12">
               Connect with raccoon :3
             </p>
           </div>
@@ -82,7 +76,6 @@ const Analysis = () => {
                 />
                 <h1 className="text-white font-Roboto">Gemini AI Assistant</h1>
               </div>
-//
               {/* Chat Messages (Scrollable) */}
               <div className="flex-1 overflow-y-auto mb-4 space-y-2">
                 {messages.map((msg, index) => (
@@ -126,6 +119,10 @@ const Analysis = () => {
           </div>
         </div>
       </div>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Damion&family=Roboto+Mono&display=swap"
+        rel="stylesheet"
+      />
     </div>
   );
 };
