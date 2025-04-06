@@ -25,7 +25,6 @@ const Sidebar = () => {
 
       {isOpen && (
         <div>
-          <h2 className="text-white text-xl mb-6">Sidebar</h2>
           <ul className="text-white">
             <li className="mb-4">Dashboard</li>
             <li className="mb-4">Analysis</li>

@@ -7,6 +7,7 @@ import Login from './pages/login';
 import Register from './pages/signup';
 import Dashboard from './pages/dashboard';
 import Analysis from './pages/analysis';
+import Tiltcalculation from './pages/tiltcalculation';
 
 import { AuthProvider } from './contexts/authContext';
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/signup' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/analysis' element={<Analysis />} />
+        <Route path='/tiltcalculation' element={<Tiltcalculation />} />
       </Routes>
     </Router>
     </AuthProvider>
