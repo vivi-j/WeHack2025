@@ -12,13 +12,12 @@ const dashboard = () => {
       <Navbar />
     
       <div className="flex h-full">
-        
-        <div className="fixed top-[80px] left-64 pl-4 right-0 bottom-0 overflow-y-auto">
-          <div className='flex gap-8 mt-4'>
-            <p className='text-white font-montserrat  underline'>Dashboard</p>
-            <a href="/analysis" className='text-white font-montserrat  hover:underline text-[#E7C0BC]'>Analysis</a>
+        <div className="fixed top-[80px] w-full">
+          <div className='flex gap-8 pl-12 mt-4'>
+            <p className='text-[#E7C0BC] bg-[#0B0003] font-montserrat  underline'>Dashboard</p>
+            <a href="/analysis" className="text-white hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
           </div>
-          <div className="flex space-x-4 mt-16">
+          <div className="flex space-x-4 mt-8">
             {/* First Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
               <h1 className="text-white text-[24px] font-montserrat ">Overall Tower Health</h1>
@@ -47,15 +46,15 @@ const dashboard = () => {
           <div className="flex space-x-4 mt-8 absolute">
             {/* First Column in Green Div */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
-              <h1 className="text-white text-[24px] absolute top-[20px] font-montserrat ">Obstruction</h1>
-              <Carousel />
+              <h1 className="text-white text-[24px] absolute top-[20px] font-montserrat">Obstruction</h1>
+              <Carousel/>
             </div>
 
             {/* Second Column in Green Div */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl"
             onClick={() => window.location.href = "/tiltcalculation"}>
               <h1 className="text-white text-[24px] absolute top-2 font-montserrat ">Tilt Calculator</h1>
-              <img src="/Population_density_of_Texas_counties_28202029-2.png" className='w-1/2 mt-4'></img>
+              <img src="/Population_density_of_Texas_counties_28202029-2.png" className='w-1/2 mt-8'></img>
             </div>
           </div>
         </div>
