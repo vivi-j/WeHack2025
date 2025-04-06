@@ -26,6 +26,20 @@ app.use(express.json());
 const API_KEY = process.env.GEMINI_API_KEY || "AIzaSyAoe_7vZJfrySqL4qHm2ZiAwZg7T0vJqTw";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
+const systemInstructions = `
+You are a telecom tower expert. Please be smiley and use emojis 😊. Follow these rules:
+
+1. Keep responses to 2-3 sentences max
+2. When asked about metric scores, always mention all four key factors:
+   - Antenna tilt
+   - Obstruction status
+   - Tower environment conditions
+   - Overall tower health rating
+3. Remember that "metric score" refers to aggregated data across all towers in the network, not individual tower metrics
+4. Always include checking for bird nests on lattice towers in your recommendations
+5. For image analysis requests, provide detailed descriptions of visible tower components and issues
+`;
+
 // Function to execute SSH command
 const executeSshCommand = (command) => {
   return new Promise((resolve, reject) => {
@@ -88,6 +102,10 @@ app.post('/api/chat', async (req, res) => {
       model: "gemini-1.5-pro",
       generationConfig: {
         temperature: 0.9
+      },
+      systemInstruction: {
+        role: "system",
+        parts: [{ text: systemInstructions }]
       }
     });
 

@@ -60,8 +60,8 @@ const Analysis = () => {
           </div>
                     {/* Add this new div for the "Connect with raccon" text */}
                     <div className="mt-4 mb-4">
-            <p className="text-white font-[Damion] text-[#E7C0BC] pl-12">
-              Connect with raccoon :3
+            <p className="text-white font-[Damion] text-[#E7C0BC] text-[40px] pl-12">
+              Connect with Raccoon :3
             </p>
           </div>
 
@@ -74,7 +74,7 @@ const Analysis = () => {
                   alt="Gemini Logo"
                   className="w-8 h-8"
                 />
-                <h1 className="text-white font-Roboto">Gemini AI Assistant</h1>
+                <h1 className="text-white font-Roboto">Lil' Raccoon</h1>
               </div>
               {/* Chat Messages (Scrollable) */}
               <div className="flex-1 overflow-y-auto mb-4 space-y-2">

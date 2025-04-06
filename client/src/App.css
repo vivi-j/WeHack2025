@@ -1,33 +1,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
-.on-button {
-  background-color: #E7C0BC;
-  font-size: 24px;
+.cursor-custom{
   cursor: url('wand-cursor (1).png'), auto;
-  transition: all 0.3s ease;
-  color: #8B3C46;
-  text-align: center;
-  font-family: Farro;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 100%; 
-  border-radius: 50px;
-}
-
-
-.off-button {
-  background-color: #E7C0BC;
-  font-size: 24px;
-  cursor: url('wand-cursor (1).png'), auto;
-  transition: all 0.3s ease;
-  color: #8B3C46;
-  text-align: center;
-  font-family: Farro;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 100%; 
-  border-radius: 50px;
 }
 
 
