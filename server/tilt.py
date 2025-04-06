@@ -4,26 +4,24 @@ import os
 import csv
 import time
 
-# Initialize Roboflow client
-rf = Roboflow(api_key="Sy3DnjVOMrd5GUWrmpv2")
+rf = Roboflow(api_key="Dz1NoPGGNrd5OUZrmbv3")  
 client = InferenceHTTPClient(
     api_url="https://detect.roboflow.com",
-    api_key="Sy3DnjVOMrd5GUWrmpv2"
+    api_key="Dz1NoPGGNrd5OUZrmbv3"
 )
 
-# Configuration
-WORKSPACE_ID = "weee-8dr2p"
-WORKFLOW_ID = "detect-and-classify-3"
+WORKSPACE_ID = "tilt-workspace"  
+PROJECT_ID = "tilt-detection"    
+VERSION = 1                      
 IMAGE_FOLDERS = ["Images1", "Images2"]  
-OUTPUT_CSV = "tower_types.csv"
+OUTPUT_CSV = "tilt.csv"
 DELAY_SECONDS = 0.5 
 
 def process_image(image_path):
     try:
-        result = client.run_workflow(
-            workspace_id=WORKSPACE_ID,
-            workflow_id=WORKFLOW_ID,
-            image_path=image_path
+        result = client.predict(
+            image_path,
+            model_id=f"{WORKSPACE_ID}/{PROJECT_ID}/{VERSION}"
         )
         return result
     except Exception as e:
@@ -43,7 +41,7 @@ def get_all_image_files(folders):
 
 with open(OUTPUT_CSV, "w", newline="") as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(["Image Name", "Label", "Confidence"])
+    writer.writerow(["Image Name", "Tilt Value", "Confidence"])
     
     total_images = 0
     processed_images = 0
@@ -61,19 +59,21 @@ with open(OUTPUT_CSV, "w", newline="") as csvfile:
         if result:
             try:
                 predictions = result.get("predictions", [{}])[0]
-                class_name = predictions.get("class", "unknown")
+                
+                # Extract tilt value - adjust these keys based on your model's output
+                tilt_value = predictions.get("tilt_angle", predictions.get("angle", 0))
                 confidence = predictions.get("confidence", 0)
                 
                 writer.writerow([
-                    f"{folder}/{img_file}",  
-                    class_name,
+                    f"{folder}/{img_file}",
+                    f"{tilt_value:.2f}",  # Tilt value with 2 decimal places
                     f"{confidence:.2f}"
                 ])
-                print(f"✓ Detected: {class_name} ({confidence:.2f} confidence)")
+                print(f"✓ Tilt: {tilt_value:.2f}° ({confidence:.2f} confidence)")
                 processed_images += 1
             except (KeyError, IndexError) as e:
-                writer.writerow([f"{folder}/{img_file}", "parse_error", "0.00"])
-                print("× Couldn't parse result")
+                writer.writerow([f"{folder}/{img_file}", "0.00", "0.00"])
+                print("× Couldn't parse tilt result")
                 errors += 1
         
         time.sleep(DELAY_SECONDS)

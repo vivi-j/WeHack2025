@@ -7,14 +7,13 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Raspberry Pi SSH credentials
+// rasp pi
 const piConfig = {
-  host: process.env.PI_HOST || '172.16.136.247',
-  username: process.env.PI_USERNAME || 'vaish',
-  password: process.env.PI_PASSWORD || 'thisisbad',
+  // host: process.env.PI_HOST || '172.16.136.247',
+  // username: process.env.PI_USERNAME || 'vaish',
+  // password: process.env.PI_PASSWORD || 'thisisbad',
 };
 
-// Middleware
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   methods: ['GET', 'POST'],
@@ -22,25 +21,17 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Initialize Gemini AI
-const API_KEY = process.env.GEMINI_API_KEY || "AIzaSyAoe_7vZJfrySqL4qHm2ZiAwZg7T0vJqTw";
+// gemini api key :3
+// const API_KEY = process.env.GEMINI_API_KEY || "AIzaSyAoe_7vZJfrySqL4qHm2ZiAwZg7T0vJqTw";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 const systemInstructions = `
-You are a telecom tower expert. Please be smiley and use emojis 😊. Follow these rules:
-
+You are a telecom tower expert for Verizon. Please be smiley and use emojis 😊. Follow these rules:
 1. Keep responses to 2-3 sentences max
-2. When asked about metric scores, always mention all four key factors:
-   - Antenna tilt
-   - Obstruction status
-   - Tower environment conditions
-   - Overall tower health rating
-3. Remember that "metric score" refers to aggregated data across all towers in the network, not individual tower metrics
-4. Always include checking for bird nests on lattice towers in your recommendations
-5. For image analysis requests, provide detailed descriptions of visible tower components and issues
+2. Remember that "metric score" refers to aggregated data across all towers in the network, not individual tower metrics
 `;
 
-// Function to execute SSH command
+// ssh
 const executeSshCommand = (command) => {
   return new Promise((resolve, reject) => {
     const conn = new Client();
@@ -68,7 +59,7 @@ const executeSshCommand = (command) => {
   });
 };
 
-// Actuator Control Endpoints
+// actuator testing
 app.get('/api/on', async (req, res) => {
   try {
     const command = "python3 -c 'import RPi.GPIO as GPIO; GPIO.setmode(GPIO.BCM); GPIO.setup(14, GPIO.OUT); GPIO.output(14, GPIO.HIGH);'";
@@ -89,7 +80,7 @@ app.get('/api/off', async (req, res) => {
   }
 });
 
-// Enhanced Chat Endpoint with conversation history
+// gemini
 app.post('/api/chat', async (req, res) => {
   try {
     const { prompt, history = [] } = req.body;
@@ -138,7 +129,7 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Test endpoint
+// test endpt
 app.get('/api/test', async (req, res) => {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
@@ -157,7 +148,7 @@ app.get('/api/test', async (req, res) => {
   }
 });
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something broke!' });
