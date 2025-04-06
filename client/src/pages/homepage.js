@@ -1,7 +1,10 @@
-import React from 'react';
+import { useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../components/navbar';
 import {useAuth} from '../contexts/authContext';
+import LoadingPage from './loadingPage';
+
 
 /*const turnOn = async () => {
   try {
@@ -23,17 +26,30 @@ const turnOff = async () => {
 
 const Homepage = () => {
   const { userLoggedIn } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleGetStarted = () => {
     if (userLoggedIn) {
-      window.location.href = '/dashboard';
+      setLoading(true);
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000); // 2-second delay
     } else {
-      window.location.href = '/login';
+      setLoading(true);
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     }
   };
 
+  if (loading) {
+    return <LoadingPage />;
+  }
+  else{
   return (
     <div className="relative h-screen w-screen overflow-hidden text-center">
+
       <NavBar />
 
       {/* Background Video */}
@@ -74,6 +90,7 @@ const Homepage = () => {
       />
     </div>
   );
+}
 };
 
 export default Homepage;
