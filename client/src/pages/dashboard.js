@@ -6,6 +6,30 @@ import GaugeComponent from '../components/gauge'
 import Numbers from '../components/numbers'
 import Carousel from '../components/carousel'
 
+function calculateOverallHealth(param1, param2, param3, param4) {
+    const weight1 = 0.4;
+    const weight2 = 0.3;
+    const weight3 = 0.2;
+    const weight4 = 0.1;
+  
+    // Scale the integer inputs (range 0-100) to 0-1 by dividing by 100
+    const scaledParam1 = param1 / 100;
+    const scaledParam2 = param2 / 100;
+    const scaledParam3 = param3 / 100;
+    const scaledParam4 = param4 / 100;
+  
+    // Calculate the weighted sum with the scaled values
+    const weightedSum = 
+      (scaledParam1 * weight1) + 
+      (scaledParam2 * weight2) + 
+      (scaledParam3 * weight3) + 
+      (scaledParam4 * weight4);
+  
+    // Convert the weighted sum into a percentage (scaled back to 0-100)
+    const percentage = weightedSum * 100;  // Since we want percentage
+    return percentage;
+  }
+
 const dashboard = () => {
   return (
     <div className='bg-[#0B0003] h-screen'>
@@ -14,14 +38,14 @@ const dashboard = () => {
       <div className="flex h-full">
         <div className="fixed top-[80px] w-full">
           <div className='flex gap-8 pl-12 mt-4'>
-            <p className='text-[#E7C0BC] bg-[#0B0003] font-montserrat  underline'>Dashboard</p>
-            <a href="/analysis" className="text-white hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
+            <p className='text-[#E7C0BC] bg-[#483137] p-2 rounded-3xl font-montserrat underline'>Dashboard</p>
+            <a href="/analysis" className="text-white p-2 rounded-3xl border-2 border-[#E7C0BC] hover:text-[#E7C0BC] font-montserrat hover:underline">Analysis</a>
           </div>
           <div className="flex space-x-4 mt-8">
             {/* First Column */}
             <div className="flex flex-col justify-center items-center bg-[#483137] border-2 border-[#E7C0BC] w-1/2 p-4 rounded-3xl">
               <h1 className="text-white text-[24px] font-montserrat ">Overall Tower Health</h1>
-              <GaugeComponent score={80} maxScore={100} title="Tower Health" />
+              <GaugeComponent score={calculateOverallHealth(100, 50, 100, 50)} maxScore={100} title="Tower Health" />
             </div>
 
             {/* Second Column */}

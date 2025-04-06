@@ -1,9 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { FaCircle, FaCloud, FaUser } from 'react-icons/fa';
+import { FaCircle, FaCloud, FaUser, FaCircleXmark } from 'react-icons/fa';
+import { useAuth } from '../contexts/authContext'
+import { doSignOut } from '../firebase/auth';
 
 const Navbar = () => {
-
+  const {userLoggedIn} = useAuth();
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
@@ -13,6 +15,11 @@ const Navbar = () => {
   const handleSignupClick = () => {
     navigate('/signup'); 
   };
+
+  const handleLogoutClick = () => {
+    doSignOut();
+    navigate('/');
+  }
 
 
   return (
@@ -27,16 +34,32 @@ const Navbar = () => {
             <h1 className="text-white text-center font-[Farro] text-[32px] font-normal leading-[100%] m-0">[Brand Name]</h1>
             </div>
             
-            <div className="flex flex-end items-center">
-              <button className="bg-transparent text-white border-none px-[15px] py-[10px] mx-[5px] text-[18px] cursor-pointer flex items-center transition-all duration-300 ease-in-out text-center font-[Farro] font-normal leading-[100%] hover:text-[#D19CA3] rounded-3xl"
-                onClick={handleLoginClick}>
-                <FaUser className="mr-[8px]" /> Log in
-              </button>
-              <button className="bg-[#ffffff33] text-white border-none px-[15px] py-[10px] mx-[5px] text-[18px] cursor-pointer flex items-center transition-all duration-300 ease-in-out text-center font-[Farro] font-normal leading-[100%] hover:text-[#D19CA3] bg-[#ffffff4d] rounded-3xl"
-                onClick={handleSignupClick}>
-                <FaCloud className="mr-[8px]" /> Sign up
-              </button>
+            <div className="flex justify-end items-center">
+            {userLoggedIn ? (
+                <button 
+                className="bg-[#ffffff33] text-white border-none px-[15px] py-[10px] mx-[5px] text-[18px] cursor-pointer flex items-center transition-all duration-300 ease-in-out text-center font-[Farro] font-normal leading-[100%] hover:text-[#D19CA3] bg-[#ffffff4d] rounded-3xl"
+                onClick={handleLogoutClick}
+                >
+                <FaUser className="mr-[8px]" /> Log Out
+                </button>
+            ) : (
+                <>
+                <button 
+                    className="bg-transparent text-white border-none px-[15px] py-[10px] mx-[5px] text-[18px] cursor-pointer flex items-center transition-all duration-300 ease-in-out text-center font-[Farro] font-normal leading-[100%] hover:text-[#D19CA3] rounded-3xl"
+                    onClick={handleLoginClick} 
+                >
+                    <FaUser className="mr-[8px]" /> Log In
+                </button>
+                <button 
+                    className="bg-[#ffffff33] text-white border-none px-[15px] py-[10px] mx-[5px] text-[18px] cursor-pointer flex items-center transition-all duration-300 ease-in-out text-center font-[Farro] font-normal leading-[100%] hover:text-[#D19CA3] bg-[#ffffff4d] rounded-3xl"
+                    onClick={handleSignupClick}
+                >
+                    <FaCloud className="mr-[8px]" /> Sign Up
+                </button>
+                </>
+            )}
             </div>
+
     </nav>
   )
 }

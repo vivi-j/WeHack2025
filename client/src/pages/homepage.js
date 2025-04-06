@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import NavBar from '../components/navbar';
 
-const turnOn = async () => {
+/*const turnOn = async () => {
   try {
     await axios.get('http://localhost:3001/api/on');
     console.log('LED turned on');
@@ -18,7 +18,7 @@ const turnOff = async () => {
   } catch (error) {
     console.error('Error turning off LED:', error);
   }
-};
+};*/
 
 const Homepage = () => {
   return (
@@ -50,11 +50,11 @@ const Homepage = () => {
           <h1 className="text-white text-[100px] font-[Damion] font-normal text-center -webkit-text-stroke-[4px] -webkit-text-stroke-[#D082B1] leading-[100%] mb-2">
             Rasp Pi Test
           </h1>
-          <h2 className="text-white text-[20px] font-[Roboto Mono] font-normal text-center leading-[100%] mb-2">
+          <h2 className="text-white text-[20px] font-[Roboto Mono] font-normal text-center pt-8 leading-[100%] mb-2">
             I love raspberries. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </h2>
           <div className="button-container flex gap-5 mt-8 items-center">
-            <button
+            {/*<button
               className="on-button bg-[#E7C0BC] text-[#8B3C46] text-[24px] px-[30px] py-[15px] rounded-[50px] transition-all ease-in-out duration-300 hover:bg-[#d19ca3] font-[Farro] font-bold text-center"
               onClick={turnOn}
             >
@@ -65,7 +65,7 @@ const Homepage = () => {
               onClick={turnOff}
             >
               Turn Off
-            </button>
+            </button>*/}
           </div>
         </header>
       </div>
