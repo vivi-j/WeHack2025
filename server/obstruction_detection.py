@@ -1,9 +1,35 @@
-from pymongo import MongoClient
-from datetime import datetime
+from roboflow import Roboflow
+from inference_sdk import InferenceHTTPClient
+import os
+import csv
+import time
 
-mongo_client = MongoClient("mongodb+srv://nerellasaigreeshma:tIbe85wGDmPusIXC@towerdata.cyrqhtc.mongodb.net/")
-db = mongo_client.TowerData
-tower_collection = db.TowerData
+# Initialize clients
+rf = Roboflow(api_key="Sy3DnjVOMrd5GUWrmpv2")
+client = InferenceHTTPClient(
+    api_url="https://detect.roboflow.com",
+    api_key="Sy3DnjVOMrd5GUWrmpv2"
+)
+
+# Configuration
+WORKSPACE_ID = "weee-8dr2p"
+WORKFLOW_ID = "detect-and-classify-3"
+IMAGE_FOLDER = "123"
+OUTPUT_CSV = "tower_classifications.csv"
+DELAY_SECONDS = 0.5  # Avoid rate limiting
+
+def process_image(image_path):
+    try:
+        # New workflow prediction syntax
+        result = client.run_workflow(
+            workspace_id=WORKSPACE_ID,
+            workflow_id=WORKFLOW_ID,
+            image_path=image_path
+        )
+        return result
+    except Exception as e:
+        print(f"Error processing {image_path}: {str(e)}")
+        return None
 
 with open(OUTPUT_CSV, "w", newline="") as csvfile:
     writer = csv.writer(csvfile)
@@ -18,21 +44,21 @@ with open(OUTPUT_CSV, "w", newline="") as csvfile:
             
             if result:
                 try:
+                    # Extract predictions from workflow result
                     predictions = result.get("predictions", [{}])[0]
                     class_name = predictions.get("class", "unknown")
                     confidence = predictions.get("confidence", 0)
                     
-                    writer.writerow([img_file, class_name, f"{confidence:.2f}"])
+                    writer.writerow([
+                        img_file,
+                        class_name,
+                        f"{confidence:.2f}"
+                    ])
                     print(f"✓ {class_name} ({confidence:.2f})")
-                    
-                    tower_collection.insert_one({
-                        "image": img_file,
-                        "class": class_name,
-                        "confidence": confidence,
-                    })
-                    
                 except (KeyError, IndexError) as e:
                     writer.writerow([img_file, "parse_error", "0.00"])
                     print("× Couldn't parse result")
             
             time.sleep(DELAY_SECONDS)
+
+print(f"\nDone! Results saved to {OUTPUT_CSV}")
